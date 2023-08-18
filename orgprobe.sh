@@ -20,14 +20,14 @@ while true; do
     case "$1" in
         -h | --help) display_help; exit 0 ;;
         -v | --verbose) verbose=true; shift ;;
-        -o | --output) output_directory=$2; shift 2 ;;
-        -u | --urls) urls=$2; shift 2 ;;
+        -o | --output) output_directory="$2"; shift 2 ;;
+        -u | --urls) urls="$2"; shift 2 ;;
         --) shift; break ;;
         *) echo "Invalid option: $1"; display_help; exit 1 ;;
     esac
 done
 
-if [ $urls == ""]; then
+if [ "$urls" = "" ]; then
     echo "Error: Provide a URL/domain list with -u"
     echo
     display_help
@@ -81,8 +81,6 @@ getCodes() {
 
 
 
-echo $verbose
-echo $output_directory
 probe $urls $verbose
 echo "$probed" > $output_directory/probed
 echo "$probed" | sed -E 's/https?:\/\///' > $output_directory/probed_clean
